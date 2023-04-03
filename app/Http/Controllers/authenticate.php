@@ -44,7 +44,7 @@ class authenticate extends Controller
         $user = user::where(['username'=> $request['user-name']])->firstOrFail();
         // $user->session()->regenerate();
 
-        session()->put('loggedUser',$user->userName);
+        session()->put('loggedUser',$user);
         return [
             'message' => 'Login Successful',
             'success' => true,

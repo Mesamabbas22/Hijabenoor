@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\authenticate;
+use App\Http\Controllers\category;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,7 @@ Route::group(['prefix'=>'admin/' ,'as'=> 'admin.'],function($group){
         $router->get('dashboard',function(){
             return view('admin.dashboard');
         });
+        Route::resource('category',category::class);
     });
     $group->resource('login',authenticate::class);
     // Route::get('admin/login',function(){
