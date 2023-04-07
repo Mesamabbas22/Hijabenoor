@@ -17,15 +17,18 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {{-- {{$category}} --}}
+                    @foreach($category as $key => $value)
                     <tr>
-                        <th scope="row">1</th>
-                        <td>Computer</td>
-                        <td>1</td>
+                        <th scope="row">{{$key+1}}</th>
+                        <td>{{$value->name}}</td>
+                        <td>{{$value->status}}</td>
                         <td>
                             <input type="button" class="btn btn-warning" value="Edit">
                             <input type="button" class="btn btn-danger" value="Delete">
                         </td>
                     </tr>
+                    @endforeach
                     <tfoot>
                         <tr>
                             <th>#</th>
@@ -49,18 +52,19 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form class="form">
+                <form id="form-category" class="form">
+                    @csrf
                     <div class="form-body">
                         <div class="form-group">
                             <label for="donationinput1">Category Name</label>
-                            <input type="text" id="donationinput1" class="form-control square" placeholder="Category Name" name="fullname">
+                            <input type="text" name="category" id="donationinput1" class="form-control square" placeholder="Category Name" name="fullname">
                         </div>
                         <div class="form-group">
                             <label for="donationinput1">Status</label>
-                            <select name="" class="form-control square"  id="">
+                            <select name="Status" class="form-control square"  id="">
                                 <option disabled selected>--Status--</option>
-                                <option value="1">Deactive</option>
-                                <option value="0">Actice</option>
+                                <option value="0">Deactive</option>
+                                <option value="1">Actice</option>
                             </select>
                         </div>
                         
@@ -79,3 +83,19 @@
     </div>
 </div>
 @include('admin/footer')
+<script>
+    $('#form-category').submit(function(event){
+        event.preventDefault();
+        let form = new FormData(this);
+        $.ajax({
+                url: 'category',
+                type: 'post',
+                data: form,
+                processData: false,
+                contentType: false,
+                success: (data)=>{
+                    console.log(data);
+                }
+            })
+    })
+</script>

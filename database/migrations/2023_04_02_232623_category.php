@@ -16,6 +16,8 @@ return new class extends Migration
             $table->id();
             $table->string('name',255);
             $table->integer('create_user');
+            $table->index('create_user');
+            $table->foreign('create_user')->references('id')->on('users')->onUpdate('cascade');
             $table->integer('status');
         });
     }

@@ -24,7 +24,10 @@ Route::group(['prefix'=>'admin/' ,'as'=> 'admin.'],function($group){
         $router->get('dashboard',function(){
             return view('admin.dashboard');
         });
-        Route::resource('category',category::class);
+        Route::get('category',function(){
+            return view('admin.category');
+        });
+        Route::resource('categorycontroller',category::class);
     });
     $group->resource('login',authenticate::class);
     // Route::get('admin/login',function(){

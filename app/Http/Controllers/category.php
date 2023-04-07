@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categorys;
 use Illuminate\Http\Request;
 
 class category extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a li sting of the resource.
      */
     public function index()
     {
         //
-        return view('admin.category');
+        return $category = Categorys::orderby('id','DESC')->get();
+        // return view('admin.category',['category'=>$category]);
     }
 
     /**
@@ -21,6 +23,7 @@ class category extends Controller
     public function create()
     {
         //
+        
     }
 
     /**
@@ -29,6 +32,24 @@ class category extends Controller
     public function store(Request $request)
     {
         //
+        try{
+            Categorys::create([
+                'name'=>$request['category'],
+                'create_user'=> session()->get('loggedUser')->id,
+                'status'=>$request['Status']
+            ]);
+            return [
+                'message' => 'Category Save successfull',
+                'success' => true,
+            ];
+        }catch(\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message' => 'Category Could Not Save',
+                'error' => $e->getMessage()
+            ], 401);
+        }
+        
     }
 
     /**
