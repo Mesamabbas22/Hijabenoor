@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\product;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\authenticate;
 use App\Http\Controllers\category;
@@ -27,7 +28,11 @@ Route::group(['prefix'=>'admin/' ,'as'=> 'admin.'],function($group){
         Route::get('category',function(){
             return view('admin.category');
         });
+        Route::get('product',function(){
+            return view('admin.product');
+        });
         Route::resource('categorycontroller',category::class);
+        Route::resource('productController',product::class);
     });
     $group->resource('login',authenticate::class);
     // Route::get('admin/login',function(){

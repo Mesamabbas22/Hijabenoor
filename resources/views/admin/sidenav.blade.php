@@ -198,8 +198,8 @@
         <div class="main-menu-content">
             <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
                 <li class="active"><a href="dashboard"><i class="la la-home"></i><span class="menu-title" >Home</span></a>
-                <li><a href="category"><i class="fa fa-category"></i><span class="menu-title" >Category</span></a>
-                </li>
+                <li><a href="category"><i class="fa fa-category"></i><span class="menu-title" >Category</span></a></li>
+                <li><a href="product"><i class="fa fa-product"></i><span class="menu-title" >Product</span></a></li>
             </ul>
         </div>
     </div>

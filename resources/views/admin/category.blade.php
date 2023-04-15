@@ -1,5 +1,6 @@
 @include('admin/head')
 @include('admin/sidenav')
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <div class="card">
     <div class="card-header d-flex justify-content-between">
         <h3 class="card-title">Category</h3>
@@ -16,86 +17,120 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
-                    {{-- {{$category}} --}}
-                    @foreach($category as $key => $value)
-                    <tr>
-                        <th scope="row">{{$key+1}}</th>
-                        <td>{{$value->name}}</td>
-                        <td>{{$value->status}}</td>
-                        <td>
-                            <input type="button" class="btn btn-warning" value="Edit">
-                            <input type="button" class="btn btn-danger" value="Delete">
-                        </td>
-                    </tr>
-                    @endforeach
-                    <tfoot>
-                        <tr>
-                            <th>#</th>
-                            <th>Category</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>  
-                    </tfoot>
+                <tbody id="tbody">
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <th>#</th>
+                        <th>Category</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>  
+                </tfoot>
             </table>
         </div>
     </div>
 </div>
-<div class="modal fade text-left" id="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel1">Basic Modal</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="form-category" class="form">
-                    @csrf
-                    <div class="form-body">
-                        <div class="form-group">
-                            <label for="donationinput1">Category Name</label>
-                            <input type="text" name="category" id="donationinput1" class="form-control square" placeholder="Category Name" name="fullname">
-                        </div>
-                        <div class="form-group">
-                            <label for="donationinput1">Status</label>
-                            <select name="Status" class="form-control square"  id="">
-                                <option disabled selected>--Status--</option>
-                                <option value="0">Deactive</option>
-                                <option value="1">Actice</option>
-                            </select>
-                        </div>
-                        
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-warning mr-1">
-                        <i class="ft-x"></i> Cancel
-                    </button>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="la la-check-square-o"></i> Save
-                    </button>
-                </form>
-                </div>
-        </div>
-    </div>
-</div>
+@include('admin/modal')
 @include('admin/footer')
 <script>
     $('#form-category').submit(function(event){
         event.preventDefault();
         let form = new FormData(this);
         $.ajax({
-                url: 'category',
+                url: 'categorycontroller',    
                 type: 'post',
                 data: form,
                 processData: false,
                 contentType: false,
                 success: (data)=>{
-                    console.log(data);
+                    if(data.success){
+                        $('tbody > tr').remove();
+                        categoryRander();
+                    }
                 }
             })
     })
+    let categoryRander = ()=>{
+        $.ajax({
+            url: 'categorycontroller',
+            success:(data)=>{
+                $.each(data,function(kay,value){
+                    var html = `
+                    <tr>
+                        <th scope="row">${kay+1}</th>
+                        <td>${value.name}</td>
+                        <td><span class="badge ${(value.status =='1')?'badge-success':'badge-danger'}">${(value.status =='1')? 'Active': 'Deactive'}</span></td>
+                        <td>
+                            <input type="button" class="btn btn-warning" data-toggle="modal" data-target="#Edit" onclick="categoryEdit(${value.id})" value="Edit">
+                            <input type="button" class="btn btn-danger" onclick="categoryDelete(${value.id})" value="Delete">
+                        </td>
+                    </tr>
+                    `
+                    $('#tbody').append(html)
+                })  
+            }
+
+        })
+    }
+    categoryRander();
+    let categoryEdit = (id)=>{
+        // console.log(id)
+
+        $.ajax({
+            url: 'categorycontroller/'+id+'/edit',
+            type: 'get',
+            success: (response)=>{
+                $('#editName').val(response.name)
+                $('#id').val(response.id)
+                $('#editStatus option[value="'+ response.status +'"]').prop('selected',true)
+            }
+
+        })
+    }
+
+     $('#edit-category').submit(function(e){
+        e.preventDefault()
+        let form = new FormData(this);
+        let id = $('#id').val()
+        $.ajax({
+            url: 'categorycontroller/'+id,
+            type:'post',
+            data:form,
+            contentType:false,
+            processData:false,
+            success: (response)=>{
+                if(response.success){
+                    $('tbody > tr').remove();
+                    categoryRander();
+                    $('#Edit').modal('hide');
+                }
+            }
+        })
+
+     })   
+
+     let categoryDelete = (id)=>{
+            let catDel = confirm('Are you sure?');
+            if(catDel){
+                var token = $("meta[name='csrf-token']").attr("content");
+                $.ajax({
+                    url: 'categorycontroller/'+id,
+                    type: "DELETE",
+                    data: {
+                        '_token':token
+                    },
+                    success: (reponse)=>{
+                        if(reponse.success){
+                            $('tbody > tr').remove();
+                            categoryRander();
+                        }
+                    },
+                    error: (error)=>{
+                        alert(error.responseJSON.error)
+                    }
+                })
+            }
+
+        }
 </script>
