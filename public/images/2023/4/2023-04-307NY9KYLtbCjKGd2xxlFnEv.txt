@@ -1,0 +1,3 @@
+ese hoty ali ke noker ese 
+/*   background: url(images/storesect1bg.jpg) no-repeat; */
+/*     background: url(images/transport-bg.jpg) no-repeat; */

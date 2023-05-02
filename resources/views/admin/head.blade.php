@@ -33,6 +33,8 @@
     <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/css/core/colors/palette-gradient.css')}}">
     <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/css/pages/timeline.css')}}">
     <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/css/pages/dashboard-ecommerce.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/css/plugins/loaders/loaders.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/css/core/colors/palette-loader.css')}}">
     <!-- END: Page CSS-->
 
     <!-- BEGIN: Custom CSS-->
