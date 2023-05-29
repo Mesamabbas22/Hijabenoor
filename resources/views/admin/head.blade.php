@@ -17,6 +17,8 @@
     <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/vendors/css/charts/morris.css')}}">
     <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/vendors/css/charts/chartist.css')}}">
     <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/vendors/css/charts/chartist-plugin-tooltip.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/vendors/css/file-uploaders/dropzone.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/vendors/css/ui/prism.min.css')}}">
     <!-- END: Vendor CSS-->
 
     <!-- BEGIN: Theme CSS-->
@@ -35,6 +37,8 @@
     <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/css/pages/dashboard-ecommerce.css')}}">
     <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/css/plugins/loaders/loaders.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/css/core/colors/palette-loader.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/css/plugins/file-uploaders/dropzone.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/css/pages/dropzone.css')}}">
     <!-- END: Page CSS-->
 
     <!-- BEGIN: Custom CSS-->

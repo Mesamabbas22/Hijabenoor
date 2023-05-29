@@ -1,6 +1,30 @@
 @include('admin/head')
 @include('admin/sidenav')
 <meta name="csrf-token" content="{{ csrf_token() }}">
+<style>
+    .image-container{
+        width: 100%;
+        height: 130px;
+        padding: 3px
+    }
+    .image-item {
+        width: 120px;
+        height: 120px;
+    }
+    .image-item > img{
+        aspect-ratio: 1/1; 
+    }
+    .image-item{
+        position: relative;
+    }
+    .remove_icon{
+        position: absolute;
+        right: 0px;
+        display: none;
+        transition: linear 500ms;
+    }
+
+</style>
 <div class="card">
     <div class="card-header d-flex justify-content-between">
         <h3 class="card-title">Category</h3>
@@ -40,6 +64,9 @@
 @include('admin/modal')
 @include('admin/footer')
 <script>
+
+
+    // dropzone.emit(mockFile, 'https://i.tribune.com.pk/media/images/1692679-books-1524459622/1692679-books-1524459622.jpg');
     $(document).ready(function(){
         let file = $('#file');
         file.change(function(){   
@@ -70,7 +97,7 @@
             success:(data)=>{
                 $.each(data,function(kay,value){
                     var html = `<option value="${value.id}">${value.name}</option>`
-                    $('#select-category').append(html)
+                    $('.select-category').append(html)
                 })  
             }
 
@@ -92,7 +119,7 @@
                         <td>5</td>
                         <td>
                             <button type="button" class="btn btn-success" onclick="singleProduct(${value.id})" data-toggle="modal" data-target="#view-product"><i class="la la-eye"></i></button>
-                            <button type="button" class="btn btn-warning"><i class="la la-edit"></i></button>
+                            <button type="button" class="btn btn-warning" onclick="editProduct(${value.id})" data-toggle="modal" data-target="#edit-product"><i class="la la-edit"></i></button>
                             <button type="button" class="btn btn-danger"><i class="la la-trash-o"></i></button>
                         </td>
                     </tr>
@@ -123,17 +150,32 @@
 
                             let images = response.images;
                             var carousel = '';
+                            var nav = '';
                             $.each(images,function(kay,value){
-                                 carousel += `
+                                if(value  !=null){
+                                    carousel += `
                                                 <div class="carousel-item">
                                                     <img src="{{url('${value}')}}" class="img-fluid" alt="First slide">
                                                 </div>
                                 `;
+
+                                nav += `
+                                <li data-target="#carousel-keyboard" data-slide-to="${kay}" class="navs"></li>
+                                `;
+                                }
                                 // console.log(carousel)
                             })
+                            $('#Product').val(response.product)
+                            $('#Category').val(response.Category)
+                            $('#Price').val(response.price)
+                            $('#Wharehoure').val(response.ware_price)
+                            $('#Brand').val(response.Brand)
+                            $('#Stock').val('stock')
+                            $('#Description').val(response.description)
                             $('.custom').html(carousel)
-                            console.log(carousel)
+                            $('.carousel-indicators').html(nav)
                             $('.custom .carousel-item:first-child').addClass('active')
+                            $('.carousel-indicators .navs:first-child').addClass('active')
                             
                             // $('.single-product').html(html)
 
@@ -146,5 +188,58 @@
                 $('.carousel-container').show();   
             }
         })
+    }
+    let editProduct = (id)=>{
+        $.ajax({
+            url: 'productController/'+id+"/edit",
+            type: "get",
+            beforeSend:(before)=>{
+                
+            },
+            success: (response)=>{
+                $('#edtt-product').val(response.product)
+                $('.select-category').val(response.categoryId)
+                $('#edit-price').val(response.price)
+                $('#edit-wahehouse').val(response.ware_price)
+                $('#edit-brand').val(response.Brand)
+                $('#edit-stock').val('5')
+                $('#edit-description').val(response.description)
+                $('#edit-status').val(response.status)
+                let image = '';
+                $dataImages = response.images
+                
+                $.each($dataImages,function(index,images){
+                    if(images !=null){
+                        image += `      <div class="image-item rounded border border">
+                                            <div class="remove_icon">
+                                            <button type="button" class="btn btn-danger btn-sm rounded-circle">
+                                                <i class="la la-close"></i>
+                                            </button>
+                                            </div>
+                                            <img src="{{URL::asset('${images}')}}" alt="" class="img-fluid" srcset="">
+                                        </div>`;
+                    }
+                })
+                $('.image-container').html(image)
+                $('#edit-product').on('hide.bs.modal',function(){
+                    $('.image-container').html('')
+                })
+                productImages()
+            },
+            error: (error)=>{
+                console.log(error)
+            }
+        })
+        let productImages = ()=>{
+            $('.image-item').hover(
+                function(){
+                    $(this.children[0]).css('display','block')
+                },
+                function(){
+                    $(this.children[0]).css('display','none')
+                }
+
+            )
+            }
     }
 </script>

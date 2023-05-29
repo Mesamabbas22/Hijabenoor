@@ -21,15 +21,20 @@
     <script src="{{URL::asset('admin/app-assets/vendors/js/charts/raphael-min.js')}}"></script>
     <script src="{{URL::asset('admin/app-assets/vendors/js/charts/morris.min.js')}}"></script>
     <script src="{{URL::asset('admin/app-assets/vendors/js/timeline/horizontal-timeline.js')}}"></script>
+    <script src="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone-min.js"></script>
+    {{-- <script src="{{URL::asset('admin/app-assets/vendors/js/extensions/dropzone.min.js')}}"></script> --}}
+    <script src="{{URL::asset('admin/app-assets/vendors/js/ui/prism.min.js')}}"></script>
     <!-- END: Page Vendor JS-->
-
+    
     <!-- BEGIN: Theme JS-->
     <script src="{{URL::asset('admin/app-assets/js/core/app-menu.js')}}"></script>
     <script src="{{URL::asset('admin/app-assets/js/core/app.js')}}"></script>
+    <script src="{{URL::asset('admin/app-assets/js/ui/headroom.min.js')}}"></script>
     <!-- END: Theme JS-->
 
     <!-- BEGIN: Page JS-->
     <script src="{{URL::asset('admin/app-assets/js/scripts/pages/dashboard-ecommerce.js')}}"></script>
+    {{-- <script src="{{URL::asset('admin/app-assets/js/scripts/extensions/dropzone.js')}}"></script> --}}
     <!-- END: Page JS-->
 
 </body>
