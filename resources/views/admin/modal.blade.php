@@ -8,7 +8,9 @@
                 </button>
             </div>
             <div class="modal-body edit-product">
-                <form>
+                <form id="product-edit-form">
+                    @csrf
+                    @method('put')
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -88,11 +90,13 @@
                         </div>
                         <div class="col-6"></div>
                     </div>
-                </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-warning mr-1">
                         <i class="ft-x"></i> Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="la la-check-square-o"></i> Save
                     </button>
                 </form>
                 </div>

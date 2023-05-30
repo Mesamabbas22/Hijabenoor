@@ -197,6 +197,7 @@
                 
             },
             success: (response)=>{
+                $('#product-edit-form').attr('data-id',response.id)
                 $('#edtt-product').val(response.product)
                 $('.select-category').val(response.categoryId)
                 $('#edit-price').val(response.price)
@@ -206,25 +207,28 @@
                 $('#edit-description').val(response.description)
                 $('#edit-status').val(response.status)
                 let image = '';
-                $dataImages = response.images
+                let = dataImages = response.images
                 
-                $.each($dataImages,function(index,images){
+                $.each(dataImages,function(index,images){
                     if(images !=null){
-                        image += `      <div class="image-item rounded border border">
+                        image += `      <div data-src="${images}" class="image-item rounded border border">
                                             <div class="remove_icon">
-                                            <button type="button" class="btn btn-danger btn-sm rounded-circle">
+                                            <button type="button" class="btn btn-danger btn-sm rounded-circle remove-button">
                                                 <i class="la la-close"></i>
                                             </button>
                                             </div>
                                             <img src="{{URL::asset('${images}')}}" alt="" class="img-fluid" srcset="">
-                                        </div>`;
+                                        </div>
+                                        <input type="hidden" value="${images}" name="${index}" id="${index}">
+                                        `;
                     }
                 })
                 $('.image-container').html(image)
                 $('#edit-product').on('hide.bs.modal',function(){
-                    $('.image-container').html('')
+                    $('.image-container').empty()
                 })
                 productImages()
+                productRemove(dataImages)
             },
             error: (error)=>{
                 console.log(error)
@@ -241,5 +245,32 @@
 
             )
             }
+        let productRemove = (images)=>{
+            $('.remove-button').click(function(){
+                $(this.parentElement.parentElement).remove()
+                let id = $('#product-edit-form').data('id');
+                console.log(id)
+
+                
+            })
+        }
     }
+
+    $('#product-edit-form').submit(function(event){
+        let id = $(this).data('id');
+        console.log(id)
+        event.preventDefault();
+        let productForm = new FormData(this);
+        $.ajax({
+            url: 'productController/'+id,
+            type:'post',
+            processData: false,
+            cache:false,
+            contentType: false,
+            data: productForm,
+            success: (response)=>{
+                console.log(responses)
+            }
+        })
+    })
 </script>
