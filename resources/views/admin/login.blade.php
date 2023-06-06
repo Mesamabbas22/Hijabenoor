@@ -50,7 +50,8 @@
                                                 </div>
                                                 <div class="col-sm-6 col-12 float-sm-left text-center text-sm-right"><a href="recover-password.html" class="card-link">Forgot Password?</a></div>
                                             </div>
-                                            <button type="submit" class="btn btn-outline-info btn-block"><i class="ft-unlock"></i> Login</button>
+                                            <button type="submit" id="login-submit" class="btn btn-outline-info btn-block"><i class="la la-circle-o-notch spinner spiner-login" style="display: none"></i><i class="ft-unlock"></i> Login</button>
+                                            <p id="login-error-massage" style="display: none" class="alert alert-danger mt-2"></p>
                                         </form>
                                     </div>
                                 </div>
@@ -68,16 +69,30 @@
         $('#login').submit(function(event){
             event.preventDefault();
             let form = new FormData(this)
+            let submit = $('#login-submit')
+            let loginErrorMassage = $('#login-error-massage')
             $.ajax({
                 url: 'login',
                 type: 'post',
                 data: form,
                 processData: false,
                 contentType: false,
+                beforeSend: ()=>{
+                    submit.attr('disabled',true)
+                    $(submit[0].children[0]).fadeIn()
+                    $(submit[0].children[1]).fadeOut()
+                    loginErrorMassage.fadeOut()
+                },
                 success: (data)=>{
-                    if(data.success){
                         window.location.href = 'dashboard';
-                    }
+                },
+                error: (error)=>{
+                    // $('.spinner').fadeOut();
+                    loginErrorMassage.fadeIn()
+                    loginErrorMassage.html(error.responseJSON.message)
+                    submit.attr('disabled',false)
+                    $(submit[0].children[1]).fadeIn()
+                        $(submit[0].children[0]).fadeOut()
                 }
             })
         })

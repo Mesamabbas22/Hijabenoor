@@ -157,7 +157,52 @@ class product extends Controller
      */
     public function update(Request $request, string $id)
     {
-        return $request;
+        try{
+            $imageName =  $request->file('editImage');
+            if(isset($imageName)){
+                $date = Carbon::now();
+            $path = public_path('images/'.$date->year.'/'.$date->month);
+            if(!File::isDirectory($path)){
+                File::makeDirectory($path,0777,true,true);
+            }
+            foreach($imageName as $images){
+                $random = Str::random(22);
+                $image = $date->toDateString(). $random .'.'.$images->extension();
+                //  $image = time().".".$images->extension();
+                $images->move($path,$image);
+                $files[] ='images/'.$date->year.'/'.$date->month.'/'. $image;
+            }
+        }
+        $image1 = (!isset($files[0]))? null:$files[0];
+        $image2 = (!isset($files[1]))? null:$files[1];
+        $image3 = (!isset($files[2]))? null:$files[2];
+        $image4 = (!isset($files[3]))? null:$files[3];  
+        products::where('id',$id)->update([
+                'product'=>$request->product,
+                'category'=>$request->category,
+                'price'=>$request->price,
+                'ware_price'=>$request->warehouse,
+                'description'=>$request->description,
+                'Brand'=>$request->Brand,
+                'images1'=>(!isset($request->images1))? $image1:$request->images1,
+                'images2'=>(!isset($request->images2))? $image2:$request->images2,
+                'images3'=>(!isset($request->images3))? $image3:$request->images3,
+                'images4'=>(!isset($request->images4))? $image4:$request->images4,
+                'status'=>$request->Status
+        ]);
+        return response()->json([
+            'success' => true,
+            'message' => 'Product Updated',
+            'error' => []
+        ], 200);
+
+        }catch(\Exception $exception){
+            return response()->json([
+                'success' => false,
+                'message' => 'Product Could Not Update',
+                'error' => $exception->getMessage()
+            ], 401);
+        }
     }
 
     /**

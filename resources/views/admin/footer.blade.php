@@ -30,6 +30,7 @@
     <script src="{{URL::asset('admin/app-assets/js/core/app-menu.js')}}"></script>
     <script src="{{URL::asset('admin/app-assets/js/core/app.js')}}"></script>
     <script src="{{URL::asset('admin/app-assets/js/ui/headroom.min.js')}}"></script>
+    <script src="{{URL::asset('admin/app-assets/vendors/js/extensions/sweetalert2.all.min.js')}}"></script>
     <!-- END: Theme JS-->
 
     <!-- BEGIN: Page JS-->

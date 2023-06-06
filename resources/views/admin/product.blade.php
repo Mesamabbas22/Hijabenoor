@@ -136,7 +136,7 @@
     productRander()
     categoryRander()
     })
-
+    let productId;
     let singleProduct = (id)=>{
         $.ajax({
             url: 'productController/'+id,
@@ -198,6 +198,7 @@
             },
             success: (response)=>{
                 $('#product-edit-form').attr('data-id',response.id)
+                productId = response.id
                 $('#edtt-product').val(response.product)
                 $('.select-category').val(response.categoryId)
                 $('#edit-price').val(response.price)
@@ -218,14 +219,15 @@
                                             </button>
                                             </div>
                                             <img src="{{URL::asset('${images}')}}" alt="" class="img-fluid" srcset="">
+                                            <input type="hidden" value="${images}" name="${index}" id="${index}">
                                         </div>
-                                        <input type="hidden" value="${images}" name="${index}" id="${index}">
                                         `;
                     }
                 })
                 $('.image-container').html(image)
                 $('#edit-product').on('hide.bs.modal',function(){
                     $('.image-container').empty()
+                    $('#editFile').val('')
                 })
                 productImages()
                 productRemove(dataImages)
@@ -248,29 +250,28 @@
         let productRemove = (images)=>{
             $('.remove-button').click(function(){
                 $(this.parentElement.parentElement).remove()
-                let id = $('#product-edit-form').data('id');
-                console.log(id)
-
-                
             })
         }
     }
 
     $('#product-edit-form').submit(function(event){
-        let id = $(this).data('id');
-        console.log(id)
+        // let id = $(this).data('id');
         event.preventDefault();
         let productForm = new FormData(this);
-        $.ajax({
-            url: 'productController/'+id,
+        let imagesLength = $('#editFile').get(0).files.length + $('.image-item').length
+        if(imagesLength <= 4 && imagesLength !=0 ){
+            $.ajax({
+            url: 'productController/'+productId,
             type:'post',
             processData: false,
             cache:false,
             contentType: false,
             data: productForm,
             success: (response)=>{
-                console.log(responses)
-            }
-        })
+                console.log(response)
+                }
+            })
+        }
+        // if($('.image-item').length + )
     })
 </script>

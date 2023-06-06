@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body edit-product">
-                <form id="product-edit-form">
+                <form id="product-edit-form" enctype="multipart/form-data">
                     @csrf
                     @method('put')
                     <div class="row">
@@ -51,7 +51,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="projectinput2">Stock</label>
-                                <input type="text" name="price" class="form-control" id="edit-stock">
+                                <input type="text" name="stock" class="form-control" id="edit-stock">
                             </div>
                         </div>
                     </div>
@@ -61,7 +61,7 @@
                             <div class="form-group">
                                 <div class="input-group mb-3">
                                     <div class="custom-file">
-                                      <input type="file" multiple class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                                      <input type="file" name="editImage[]" multiple class="custom-file-input" id="editFile" aria-describedby="inputGroupFileAddon01">
                                       <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                                     </div>
                                     <div class="image-container border border d-flex justify-content-between">
@@ -73,7 +73,7 @@
                             <div class="form-group">
                                 <label for="projectinput2">Description</label>
                                 {{-- <input type="text" name="Description" class="form-control" id=""> --}}
-                                <textarea name="" id="edit-description" cols="30" class="form-control" rows="10"></textarea>
+                                <textarea id="edit-description" name="description" cols="30" class="form-control" rows="10"></textarea>
                             </div>
                         </div>
                     </div>
