@@ -17,7 +17,7 @@ class product extends Controller
     {
         //
         try{
-            $product =  products::join('tbl_category','tbl_product.category','=','tbl_category.id')->select('tbl_product.id','product','name as category','price','ware_price','description','Brand','images1','images2','images3','images4','tbl_product.status');
+            $product =  products::join('tbl_category','tbl_product.category','=','tbl_category.id')->select('tbl_product.id','product','name as category','price','ware_price','description','Brand','images1','images2','images3','images4','tbl_product.status','stock');
             return $product->get();
         }catch(\Exception $exception){
             return response()->json([
@@ -65,6 +65,7 @@ class product extends Controller
                 'price'=>$request->Price,
                 'ware_price'=>$request->WareHoues,
                 'description'=>$request->Description,
+                'stock'=>$request->stock,
                 'Brand'=>$request->Product,
                 'images1'=>$files[0],
                 'images2'=>(!isset($files[1]))? null:$files[1],
@@ -93,7 +94,7 @@ class product extends Controller
     public function show(string $id)
     {
         try{
-            $product =  products::join('tbl_category','tbl_product.category','=','tbl_category.id')->select('tbl_product.id','product','name as category','price','ware_price','description','Brand','images1','images2','images3','images4','tbl_product.status')->where('tbl_product.id',$id)->get();
+            $product =  products::join('tbl_category','tbl_product.category','=','tbl_category.id')->select('tbl_product.id','product','name as category','price','ware_price','description','Brand','images1','images2','images3','images4','tbl_product.status','tbl_product.stock')->where('tbl_product.id',$id)->get();
             return response()->json([
                  "id"=> $product[0]->id,
                  "product"=>$product[0]->product,
@@ -103,12 +104,13 @@ class product extends Controller
                  "description"=>$product[0]->description,
                  "Brand"=>$product[0]->Brand,
                  "images"=>[
-                    "images1"=>$product[0]->images1,
-                    "images2"=>$product[0]->images2,
-                    "images3"=>$product[0]->images3,
-                    "images4"=>$product[0]->images4,
-                 ],
-                 "status"=>$product[0]->status
+                     "images1"=>$product[0]->images1,
+                     "images2"=>$product[0]->images2,
+                     "images3"=>$product[0]->images3,
+                     "images4"=>$product[0]->images4,
+                    ],
+                    "status"=>$product[0]->status,
+                    "stock"=>$product[0]->stock,
 
              ],200);
         }catch(\Exception $exception){
@@ -125,7 +127,7 @@ class product extends Controller
     public function edit(string $id)
     {
         try{
-            $product =  products::join('tbl_category','tbl_product.category','=','tbl_category.id')->select('tbl_product.id','product','name as category','tbl_category.id as categoryId','price','ware_price','description','Brand','images1','images2','images3','images4','tbl_product.status')->where('tbl_product.id',$id)->get();
+            $product =  products::join('tbl_category','tbl_product.category','=','tbl_category.id')->select('tbl_product.id','product','name as category','tbl_category.id as categoryId','price','ware_price','description','Brand','images1','images2','images3','images4','tbl_product.status','stock')->where('tbl_product.id',$id)->get();
             return response()->json([
                  "id"=> $product[0]->id,
                  "product"=>$product[0]->product,
@@ -141,7 +143,8 @@ class product extends Controller
                     "images3"=>$product[0]->images3,
                     "images4"=>$product[0]->images4,
                  ],
-                 "status"=>$product[0]->status
+                 "status"=>$product[0]->status,
+                 "stock"=>$product[0]->stock
 
              ],200);
         }catch(\Exception $exception){
@@ -188,7 +191,8 @@ class product extends Controller
                 'images2'=>(!isset($request->images2))? $image2:$request->images2,
                 'images3'=>(!isset($request->images3))? $image3:$request->images3,
                 'images4'=>(!isset($request->images4))? $image4:$request->images4,
-                'status'=>$request->Status
+                'status'=>$request->Status,
+                'stock'=>$request->stock
         ]);
         return response()->json([
             'success' => true,
@@ -211,5 +215,30 @@ class product extends Controller
     public function destroy(string $id)
     {
         //
+        try{
+            $product =  products::where('id',$id);
+            $priductImages = $product->get()[0];
+                $images = [$priductImages->images1,$priductImages->images2,$priductImages->images3,$priductImages->images4];
+            foreach($images as $image){
+                if($image !=null){
+                    $path = public_path($image);
+                    if(File::exists($path)){
+                        File::delete($path);
+                    }
+                }
+            }
+            $product->delete();
+            return response()->json([
+                'message' => 'Product Deleted successfull',
+                'success' => true,
+                'error'=> []
+            ],200);            
+        }catch(\Exception $exception){
+            return response()->json([
+                'success' => false,
+                'message' => 'Category Could Not Save',
+                'error' => $exception->getMessage()
+            ], 401);
+        }
     }
 }

@@ -44,10 +44,13 @@
                 processData: false,
                 contentType: false,
                 success: (data)=>{
-                    if(data.success){
-                        $('tbody > tr').remove();
+                    reUseAbleSweetAlert('Sucess',data.message,'success','btn btn-primary')
+                    $('tbody > tr').remove();
                         categoryRander();
-                    }
+                        $('#add').modal('hide');
+                },
+                error: (error)=>{
+                    reUseAbleSweetAlert(error.responseJSON.message,error.responseJSON.error,'error','btn btn-danger')
                 }
             })
     })
@@ -100,21 +103,38 @@
             contentType:false,
             processData:false,
             success: (response)=>{
-                if(response.success){
+                    reUseAbleSweetAlert('Sucess',response.message,'success','btn btn-primary')
                     $('tbody > tr').remove();
                     categoryRander();
                     $('#Edit').modal('hide');
-                }
+            },
+            error: (error)=>{
+                reUseAbleSweetAlert(error.responseJSON.message,error.responseJSON.error,'error','btn btn-danger')
             }
         })
 
      })   
 
      let categoryDelete = (id)=>{
-            let catDel = confirm('Are you sure?');
-            if(catDel){
-                var token = $("meta[name='csrf-token']").attr("content");
-                $.ajax({
+        var token = $("meta[name='csrf-token']").attr("content");
+        Swal.fire({
+        title: 'Are you sure?',
+        text: "You want to delete a category!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Delete!',
+        confirmButtonClass: 'btn btn-warning',
+        cancelButtonClass: 'btn btn-info ml-1',
+        buttonsStyling: false,
+        }).then(function (result) {
+            if (result.value) {
+            Swal.fire({
+            type: "success",
+            title: 'Deleted!',
+            text: 'Category deleted',
+            confirmButtonClass: 'btn btn-success',
+            })
+            $.ajax({
                     url: 'categorycontroller/'+id,
                     type: "DELETE",
                     data: {
@@ -130,7 +150,7 @@
                         alert(error.responseJSON.error)
                     }
                 })
-            }
-
         }
+        })
+            }
 </script>

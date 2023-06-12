@@ -6,6 +6,15 @@
 	Author: Pixinvent
 	Author URL: hhttp://www.themeforest.net/user/pixinvent
 ==========================================================================================*/
+let reUseAbleSweetAlert = (title,text,type,confirmButtonClass)=>{
+  Swal.fire({
+    title: title,
+    text: text,
+    type: type,
+    confirmButtonClass:confirmButtonClass,
+    buttonsStyling: false,
+  });    
+}
 $(document).ready(function () {
 
   // Basic

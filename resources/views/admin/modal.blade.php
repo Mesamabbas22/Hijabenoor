@@ -325,6 +325,11 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="companyName">Add Product Stock</label>
+                            <input type="number" id="stock" class="form-control" placeholder="Product Brand" name="stock">
+                        </div>
+
+                        <div class="form-group">
                             <label>Images Uplaod</label>
                             <br>
                             <label id="projectinput7" class="file center-block">

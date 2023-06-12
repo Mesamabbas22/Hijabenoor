@@ -17,10 +17,6 @@
 
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/animate/animate.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/extensions/sweetalert2.min.css">
-
     <!-- Libraries Stylesheet -->
     <link href="{{URL::asset('asset/lib/animate/animate.min.css')}}" rel="stylesheet">
     <link href="{{URL::asset('asset/lib/owlcarousel/assets/owl.carousel.min.css')}}" rel="stylesheet">

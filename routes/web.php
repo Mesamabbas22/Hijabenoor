@@ -20,9 +20,8 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::group(['prefix'=>'admin/' ,'as'=> 'admin.'],function($group){
-    Route::group(['middleware'=>['auth']],function($router){
-        $router->get('dashboard',function(){
+Route::group(['prefix'=>'admin/' ,'as'=> 'admin.','middlewar'=> 'auth'],function(){
+        Route::get('dashboard',function(){
             return view('admin.dashboard');
         });
         Route::get('category',function(){
@@ -34,8 +33,7 @@ Route::group(['prefix'=>'admin/' ,'as'=> 'admin.'],function($group){
         Route::resource('categorycontroller',category::class);
         Route::resource('productController',product::class);
     });
-    $group->resource('login',authenticate::class);
+    Route::resource('admin/login',authenticate::class)->only(['index', 'store']);
     // Route::get('admin/login',function(){
     //     return view('admin.login');
     // });
-});

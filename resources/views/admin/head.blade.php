@@ -26,6 +26,8 @@
     <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/css/bootstrap-extended.css')}}">
     <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/css/colors.css')}}">
     <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/css/components.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/vendors/css/animate/animate.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/vendors/css/extensions/sweetalert2.min.css')}}">
     <!-- END: Theme CSS-->
 
     <!-- BEGIN: Page CSS-->

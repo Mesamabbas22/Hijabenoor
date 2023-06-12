@@ -31,10 +31,12 @@
     <script src="{{URL::asset('admin/app-assets/js/core/app.js')}}"></script>
     <script src="{{URL::asset('admin/app-assets/js/ui/headroom.min.js')}}"></script>
     <script src="{{URL::asset('admin/app-assets/vendors/js/extensions/sweetalert2.all.min.js')}}"></script>
+    <script src="{{URL::asset('admin/app-assets/vendors/js/extensions/polyfill.min.js')}}"></script>
     <!-- END: Theme JS-->
 
     <!-- BEGIN: Page JS-->
     <script src="{{URL::asset('admin/app-assets/js/scripts/pages/dashboard-ecommerce.js')}}"></script>
+    <script src="{{URL::asset('admin/app-assets/js/scripts/extensions/ex-component-sweet-alerts.js')}}"></script>
     {{-- <script src="{{URL::asset('admin/app-assets/js/scripts/extensions/dropzone.js')}}"></script> --}}
     <!-- END: Page JS-->
 

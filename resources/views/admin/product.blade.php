@@ -67,7 +67,6 @@
 
 
     // dropzone.emit(mockFile, 'https://i.tribune.com.pk/media/images/1692679-books-1524459622/1692679-books-1524459622.jpg');
-    $(document).ready(function(){
         let file = $('#file');
         file.change(function(){   
     
@@ -85,7 +84,13 @@
                 contentType: false,
                 processData: false,
                 success:(response)=>{
-                    console.log(response)
+                    reUseAbleSweetAlert('Sucess',response.message,'success','btn btn-primary')
+                    $('#tbody > tr').remove()
+                    productRander()
+                    $('#product').modal('hide')
+                },
+                error: (error)=>{
+                    reUseAbleSweetAlert(error.responseJSON.message,error.responseJSON.error,'error','btn btn-danger')
                 }
             })   
             }
@@ -116,11 +121,11 @@
                         <td>${value.category}</td>
                         <td>${value.price}</td>
                         <td>${value.ware_price}</td>
-                        <td>5</td>
+                        <td>${value.stock}</td>
                         <td>
                             <button type="button" class="btn btn-success" onclick="singleProduct(${value.id})" data-toggle="modal" data-target="#view-product"><i class="la la-eye"></i></button>
                             <button type="button" class="btn btn-warning" onclick="editProduct(${value.id})" data-toggle="modal" data-target="#edit-product"><i class="la la-edit"></i></button>
-                            <button type="button" class="btn btn-danger"><i class="la la-trash-o"></i></button>
+                            <button type="button" class="btn btn-danger" onclick="deleteProduct(${value.id})"><i class="la la-trash-o"></i></button>
                         </td>
                     </tr>
                     `
@@ -135,7 +140,6 @@
     }
     productRander()
     categoryRander()
-    })
     let productId;
     let singleProduct = (id)=>{
         $.ajax({
@@ -170,7 +174,7 @@
                             $('#Price').val(response.price)
                             $('#Wharehoure').val(response.ware_price)
                             $('#Brand').val(response.Brand)
-                            $('#Stock').val('stock')
+                            $('#Stock').val(response.stock)
                             $('#Description').val(response.description)
                             $('.custom').html(carousel)
                             $('.carousel-indicators').html(nav)
@@ -204,7 +208,7 @@
                 $('#edit-price').val(response.price)
                 $('#edit-wahehouse').val(response.ware_price)
                 $('#edit-brand').val(response.Brand)
-                $('#edit-stock').val('5')
+                $('#edit-stock').val(response.stock)
                 $('#edit-description').val(response.description)
                 $('#edit-status').val(response.status)
                 let image = '';
@@ -253,7 +257,7 @@
             })
         }
     }
-
+$(
     $('#product-edit-form').submit(function(event){
         // let id = $(this).data('id');
         event.preventDefault();
@@ -268,10 +272,53 @@
             contentType: false,
             data: productForm,
             success: (response)=>{
-                console.log(response)
+                reUseAbleSweetAlert('Sucess',response.message,'success','btn btn-primary')
+                $('#edit-product').modal('hide')
+                    $('#tbody > tr').remove()
+                    productRander()
+
+                },
+                error: (error)=>{
+                    reUseAbleSweetAlert(error.responseJSON.message,error.responseJSON.error,'error','btn btn-danger')
                 }
             })
         }
         // if($('.image-item').length + )
     })
+)
+let deleteProduct = (id)=>{
+    var token = $("meta[name='csrf-token']").attr("content");
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You want to delete a Product!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonClass: 'btn btn-warning',
+      cancelButtonClass: 'btn btn-primary ml-1',
+      buttonsStyling: false,
+    }).then(function (result) {
+      if (result.value) {
+            $.ajax({
+            url: 'productController/'+id,
+            type: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: (response)=>{
+                $('#tbody > tr').remove()
+                productRander()       
+                Swal.fire({
+                type: "success",
+                title: response.message,
+                text: 'Product Deleted',
+                confirmButtonClass: 'btn btn-success',
+                })
+            }
+
+        })
+      }
+    })
+}
+
+    
 </script>
