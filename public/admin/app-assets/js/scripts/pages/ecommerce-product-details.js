@@ -1,7 +1,7 @@
 /*************************************
 *        Default Score Rating        *
 **************************************/
-$.fn.raty.defaults.path = '../../../app-assets/images/raty/';
+$.fn.raty.defaults.path = 'admin/app-assets/images/raty/';
 
 $('.ratings').raty({
     readOnly: true,

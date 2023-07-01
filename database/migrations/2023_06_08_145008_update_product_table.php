@@ -16,6 +16,11 @@ return new class extends Migration
         //
         Schema::table('tbl_product',function(blueprint $table){
             $table->integer('stock');
+            $table->string('SKU');
+            $table->integer('featured');
+            $table->integer('new-arrival');
+            $table->integer('sale');
+            $table->integer('availability');
         });
     }
 

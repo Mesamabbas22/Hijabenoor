@@ -38,8 +38,8 @@
                         <th>#</th>
                         <th>Product</th>
                         <th>Category</th>
+                        <th>Brand</th>
                         <th>Price</th>
-                        <th>Warehouse Price</th>
                         <th>Stock</th>
                         <th>Action</th>
                     </tr>
@@ -51,8 +51,8 @@
                         <th>#</th>
                         <th>Product</th>
                         <th>Category</th>
+                        <th>Brand</th>
                         <th>Price</th>
-                        <th>Warehouse Price</th>
                         <th>Stock</th>
                         <th>Action</th>
                     </tr>  
@@ -74,7 +74,7 @@
         
         $('#productFrom').submit(function(e){
             e.preventDefault();
-            let = form = new FormData(this);
+            let form = new FormData(this);
             if($('#file').get(0).files.length <= 4){
                 $.ajax({
                 url: 'productController',
@@ -108,7 +108,19 @@
 
         })
     }
-
+    let brnadDataDisplay = ()=>{
+        $.ajax({
+            url:'brandController',
+            type: "get",
+            success:(response)=>{
+                $.each(response,function(kay,value){
+                    let html = `<option value="${value.id}">${value.BrandName}</option>`
+                        $('#product-brand ,#edit-product-brand').append(html)
+                })
+            }
+        })
+    }
+    brnadDataDisplay()
     let productRander = ()=>{
         $.ajax({
             url:'productController',
@@ -118,9 +130,9 @@
                     <tr>
                         <td>${kay+1}</td>
                         <td>${value.product}</td>
-                        <td>${value.category}</td>
+                        <td>${value.get_category[0].name}</td>
+                        <td>${value.get_brand[0].BrandName}</td>
                         <td>${value.price}</td>
-                        <td>${value.ware_price}</td>
                         <td>${value.stock}</td>
                         <td>
                             <button type="button" class="btn btn-success" onclick="singleProduct(${value.id})" data-toggle="modal" data-target="#view-product"><i class="la la-eye"></i></button>
@@ -207,7 +219,7 @@
                 $('.select-category').val(response.categoryId)
                 $('#edit-price').val(response.price)
                 $('#edit-wahehouse').val(response.ware_price)
-                $('#edit-brand').val(response.Brand)
+                $('#edit-product-brand').val(response.Brand)
                 $('#edit-stock').val(response.stock)
                 $('#edit-description').val(response.description)
                 $('#edit-status').val(response.status)

@@ -1,3 +1,4 @@
+@extends('include.script')
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +14,10 @@
         <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/css/bootstrap-extended.css')}}">
         <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/css/colors.css')}}">
         <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/css/components.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/vendors/css/forms/icheck/icheck.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/vendors/css/forms/spinner/jquery.bootstrap-touchspin.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/vendors/css/vendors.min.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/vendors/css/extensions/nouislider.min.css')}}">
         <!-- END: Theme CSS-->
     
         <!-- BEGIN: Page CSS-->
@@ -23,8 +28,13 @@
         <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/fonts/simple-line-icons/style.css')}}">
         {{-- <link rel="stylesheet" type="text/css" href="{{URL::asset('fonts/line-awesome/css/line-awesome.min.css')}}"> --}}
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
-        <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/css/core/colors/palette-gradient.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/css/core/colors/palette-gradient.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/css/core/colors/palette-gradient.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/css/core/colors/palette-noui.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/css/pages/ecommerce-shop.css')}}">
         <link rel="stylesheet" href="{{URL::asset('admin/app-assets/css/owl.carousel.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/css/pages/ecommerce-shop.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/css/plugins/forms/checkboxes-radios.css')}}">
         <!-- END: Page CSS-->
     
         <!-- BEGIN: Custom CSS-->
@@ -71,28 +81,25 @@
                 <a class="nav-link mx-1 active" aria-current="page" href="#">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link mx-1" href="#">Man</a>
+                <a class="nav-link mx-1" href="#">Store</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link mx-1" href="#">Woman</a>
+                <a class="nav-link mx-1" href="#">Category</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link mx-1" href="#">Baby Collection</a>
+                <a class="nav-link mx-1" href="#">Sales</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link mx-1" href="#">Pages</a>
+                <a class="nav-link mx-1" href="#">About Us</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link mx-1" href="#">Blog</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link mx-1" href="#">Contact</a>
+                <a class="nav-link mx-1" href="#">Contact Us</a>
               </li>
             </ul>
             <ul class="right-navbar d-flex">
                 <button type="button"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg></button>
                 <button type="button"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/></svg></button>
-                <button type="button" class="cart-btn"><span class="highlight-card-number">10</span><i class="fas fa-cart-plus"></i></button>
+                <a href="cart" class="cart-btn"><span class="highlight-card-number cart-label">{{(session()->has('cart'))?count( session()->get('cart')):0}}</span><i class="fas fa-cart-plus"></i></a>
             </ul>
           </div>
         </div>
@@ -228,6 +235,13 @@
           <script src="{{URL::asset('admin/app-assets/vendors/js/charts/jvector/jquery-jvectormap-world-mill.js')}}"></script>
           <script src="{{URL::asset('admin/app-assets/data/jvector/visitor-data.js')}}"></script>
           <script src="{{URL::asset('admin/app-assets/js/scripts/owl.carousel.js')}}"></script>
+
+          <script src="{{URL::asset('admin/app-assets/vendors/js/forms/spinner/jquery.bootstrap-touchspin.js')}}"></script>
+          <script src="{{URL::asset('admin/app-assets/vendors/js/ui/prism.min.js')}}"></script>
+          <script src="{{URL::asset('admin/app-assets/vendors/js/extensions/jquery.raty.js')}}"></script>
+          <script src="{{URL::asset('admin/app-assets/vendors/js/extensions/jquery.cookie.js')}}"></script>
+          <script src="{{URL::asset('admin/app-assets/vendors/js/extensions/jquery.treeview.js')}}"></script>
+          <script src="{{URL::asset('admin/app-assets/vendors/js/forms/icheck/icheck.min.js')}}"></script>
           <!-- END: Page Vendor JS-->
       
           <!-- BEGIN: Theme JS-->
@@ -237,5 +251,7 @@
       
           <!-- BEGIN: Page JS-->
           <script src="{{URL::asset('admin/app-assets/js/scripts/pages/dashboard-sales.js')}}"></script>
+          <script src="{{URL::asset('admin/app-assets/js/scripts/pages/ecommerce-product-details.js')}}"></script>
           <script src="{{URL::asset('assets/front-end/js/scripts.js')}}"></script>
+
       

@@ -47,7 +47,7 @@ class authenticate extends Controller
         return [
             'message' => 'Login Successful',
             'success' => true,
-            'token' => $user->createToken()->plainTextToken,
+            // 'token' => $user->createToken()->plainTextToken,
             'token_type' => 'Bearer',
             'userData' => $user
         ];

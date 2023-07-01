@@ -17,7 +17,7 @@ class product extends Controller
     {
         //
         try{
-            $product =  products::join('tbl_category','tbl_product.category','=','tbl_category.id')->select('tbl_product.id','product','name as category','price','ware_price','description','Brand','images1','images2','images3','images4','tbl_product.status','stock');
+            $product =  products::with('get_brand')->with('get_category');
             return $product->get();
         }catch(\Exception $exception){
             return response()->json([
@@ -66,7 +66,12 @@ class product extends Controller
                 'ware_price'=>$request->WareHoues,
                 'description'=>$request->Description,
                 'stock'=>$request->stock,
-                'Brand'=>$request->Product,
+                'Brand'=>$request->brand,
+                'SKU'=>'G35K34K4',
+                'featured'=>'0',
+                'new-arrival'=>'0',
+                'sale'=>'0',
+                'availability'=>'0',
                 'images1'=>$files[0],
                 'images2'=>(!isset($files[1]))? null:$files[1],
                 'images3'=>(!isset($files[2]))? null:$files[2],

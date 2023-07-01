@@ -38,12 +38,14 @@ body{
 	font-size: medium;
 	color: red;
 }
-.right-navbar > button{
+.right-navbar > a{
 	background:none;
 	border: none;
 	font-size: x-large;
 	margin: 0px 5px;
+	text-align: center;
 	outline: none;
+	color: black;
 }
 .cart-btn{
 	position: relative;
@@ -195,23 +197,29 @@ body{
 	transition: linear 400ms;
 }
 .card-item-row{
-	width: 200px;
 	background-color: white;
 	font-size: x-large;
 	position: absolute;
-	padding: 10px;
+	padding: 10px 5px;
+	width: 80%;
 	top: 45%;
-	left: 11%;
 	text-align: center;
 	transition: opacity 0.2s ease-in-out 0s;
 	opacity: 0;
+	box-shadow: -2px 0px 32px 6px rgba(3,3,3,0.37);
+-webkit-box-shadow: -2px 0px 32px 6px rgba(3,3,3,0.37);
+-moz-box-shadow: -2px 0px 32px 6px rgba(3,3,3,0.37);
+}
+
+.tranding-card >img{
+	aspect-ratio: 1/1;
 }
 .tranding-card:hover .card-item-row{
 	opacity: 1;
 }
 .card-item-row a{
 	color: black;
-	padding: 11px 20px;
+	padding: 10px;
 }
 .card-item-row a:hover{
 	background-color: red;

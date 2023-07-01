@@ -1,3 +1,78 @@
+<div class="modal fade text-left" id="edit-brand" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel1">Edit</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body edit-product">
+                <form id="form_edtit-brand" enctype="multipart/form-data">
+                    @method('PUT')
+                    @csrf
+                    <label for="brand-name">Brand</label>
+                    <input type="text" name="brandname" class="form-control" placeholder="Brand Name" id="edit_brand">
+                    <label for="counteroforgin">Country Of Orgin</label>
+                    <select name="counteroforgin" class="form-control" id="ediit-counteroforgin">
+                        <option disabled selected >--select Country</option>
+                    </select>
+                    <label for="description">Description</label>
+                    <textarea name="description" id="edit-descriotion" cols="30" class="form-control" rows="10"></textarea>
+                    <label for="Images">Images</label>
+                    <p class="text-success font-weigt-bold"><span id="images-name"></span></p>
+                    <input type="file" name="logo" class="form-control" id="edit-logo">
+            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning mr-1">
+                        <i class="ft-x"></i> Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="la la-check-square-o"></i> Save
+                    </button>
+                </form>
+                </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade text-left" id="new-brand" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel1">Basic Modal</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body edit-product">
+                <form id="add-brand" enctype="multipart/form-data">
+                    @csrf
+                    <label for="brand-name">Brand</label>
+                    <input type="text" name="brandname" class="form-control" placeholder="Brand Name" id="">
+                    <label for="counteroforgin">Country Of Orgin</label>
+                    <select name="counteroforgin" class="form-control" id="counteroforgin">
+                        <option disabled selected >--select Country</option>
+                    </select>
+                    <label for="description">Description</label>
+                    <textarea name="description" id="" cols="30" class="form-control" rows="10"></textarea>
+                    <label for="Images">Images</label>
+                    <input type="file" name="logo" class="form-control" id="logo">
+            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning mr-1">
+                        <i class="ft-x"></i> Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="la la-check-square-o"></i> Save
+                    </button>
+                </form>
+                </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade text-left" id="edit-product" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
@@ -45,7 +120,9 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Brand</label>
-                                <input type="text" name="Brand" class="form-control" id="edit-brand">        
+                                <select name="product-brand" class="form-control" id="edit-product-brand">
+                                <option selected disabled>--product Brand</option>     
+                                </select>        
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -321,7 +398,9 @@
 
                         <div class="form-group">
                             <label for="companyName">Add Product Brand</label>
-                            <input type="text" id="companyName" class="form-control" placeholder="Product Brand" name="Product">
+                            <select name="brand" class="form-control" id="product-brand">
+                                <option selected disabled>--Product Brand</option>
+                            </select>
                         </div>
 
                         <div class="form-group">

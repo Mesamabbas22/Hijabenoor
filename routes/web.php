@@ -4,6 +4,9 @@ use App\Http\Controllers\product;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\authenticate;
 use App\Http\Controllers\category;
+use App\Http\Controllers\brand;
+use App\Http\Controllers\countrys;
+use App\Http\Controllers\cart;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,8 +22,13 @@ use App\Http\Controllers\category;
 Route::get('/', function () {
     return view('home');
 });
+Route::view('shop','shop');
+Route::view('product','single-product');
+Route::get('cart',[cart::class,'index']);
+Route::get('addtocart/{id}',[cart::class,'addToCard']);
+Route::view('checkout','checkout');
 
-Route::group(['prefix'=>'admin/' ,'as'=> 'admin.','middlewar'=> 'auth'],function(){
+Route::group(['prefix'=>'admin/' ,'as'=> 'admin.','middleware'=> 'logedin'],function(){
         Route::get('dashboard',function(){
             return view('admin.dashboard');
         });
@@ -30,9 +38,14 @@ Route::group(['prefix'=>'admin/' ,'as'=> 'admin.','middlewar'=> 'auth'],function
         Route::get('product',function(){
             return view('admin.product');
         });
-        Route::resource('categorycontroller',category::class);
-        Route::resource('productController',product::class);
+        Route::get('brand',function(){
+            return view('admin.brand');
+        });
     });
+    Route::resource('admin/categorycontroller',category::class);
+    Route::resource('admin/productController',product::class);
+    Route::resource('admin/countrysController',countrys::class);
+    Route::resource('admin/brandController',brand::class);
     Route::resource('admin/login',authenticate::class)->only(['index', 'store']);
     // Route::get('admin/login',function(){
     //     return view('admin.login');
