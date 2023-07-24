@@ -2,6 +2,7 @@
 @section('title','Product|Name')
 @section('contant')
 <!-- product-details-start -->
+{{$product[0]['id']}}
 <div class="product-details">
     <div class="container">
       <div class="product-detail">
@@ -392,7 +393,9 @@
                                 <h2 class="my-1">
                                     Leave Your Review
                                 </h2>
-                                <form class="form">
+                                <form class="form" id="ratting-form">
+                                    @csrf
+                                    <input type="hidden" name="product_id" value="{{$product[0]['id']}}">
                                     <div class="form-body">
                                         <label>
                                             Ratings
@@ -410,10 +413,10 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="subject">
-                                                        Subject
+                                                    <label for="Email">
+                                                        Your Email
                                                     </label>
-                                                    <input class="form-control" id="subject" name="subject" placeholder="Subject" type="text">
+                                                    <input class="form-control" id="email" name="email" placeholder="You Email" type="email">
                                                 </div>
                                             </div>
                                         </div>

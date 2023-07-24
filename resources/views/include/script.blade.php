@@ -17,8 +17,8 @@
                               <div class="col-4"><a href="#"><i class="fas fa-search-plus"></i></a></div>
                             </div>
                           </div>
-                          <div class="tranding-product-name mt-2 text-center">
-                            <a href="#">${value.product}</a>
+                          <div class="tranding-product-name mt-2 text-center" onclick="productData(${value.id})">
+                            <a href="admin/productController/${value.id}">${value.product}</a>
                             <div class="tranding-price">
                               <div class="sale price d-flex">
                                 <span class="sale-price ml-auto">$98.00</span>
@@ -42,12 +42,100 @@ let cartBtn = ()=>{
       type:'get',
       success:(response)=>{
         $('.cart-label').html(Object.keys(response).length)
+        if(Object.keys(response).length > 0) {$('.cart-label').show()}
       }
     })
   })
 }
 $('.input-group .input-group-btn').click(function(){
-        console.log($($(this)[0].parentElement).data('id'))
-        console.log($(this).siblings('input').val())
+        let id = $($(this)[0].parentElement).data('id');
+        let values = $(this).siblings('input').val();
+        $.ajax({
+          url: 'updatetocart',
+          type: 'patch',
+          data: {
+            "Id":id,
+            "value":values,
+            "_token": '{{ csrf_token() }}',
+          },
+          success:(response)=>{
+            console.loh(response)
+          }
+        })
     })
+
+    $('.product-action > button').click(function(){
+      $.ajax({
+        url: 'deletecart',
+        type:'delete',
+        data: {
+                id: $(this).data('id'),
+                "_token": '{{ csrf_token() }}'
+              
+              },
+        success: (response)=>{
+          $($(this)[0].parentElement.parentElement.parentElement).remove()
+          let count = $('.cart-label').text();
+          $('.cart-label').html(Object.keys(response).length)
+          if(Object.keys(response).length == 0) {$('.cart-label').hide()}
+        }
+      })
+    })
+// $('.product-data').click(function(){
+//   alert('done')
+// })
+// let productData = (id)=>{
+//   $.ajax({
+//     url:'admin/productController/'+id,
+//     success: (response)=>{
+//       window.location = 'product?data='+encodeURIComponent(response);
+//     }
+//   })
+// }
+$.fn.raty.defaults.path = '{{URL::asset("admin/app-assets/images/raty/")}}';
+
+$('.ratings').raty({
+    readOnly: true,
+    score: 2.3551136363636362
+});
+
+// Star Review
+$('#customer-review').raty({
+	half : true,
+  click: function(score){
+    console.log(score)
+  }
+});
+
+$(".touchspin").TouchSpin({ min: 1, max: 10});
+
+$('#ratting-form').submit(function(event){
+  event.preventDefault();
+  let form = new FormData(this);
+  $.ajax({
+    url: '/admin/customerReviews',
+    type: 'POST',
+    data: form,
+    cache: false,
+    contentType: false,
+    processData: false,
+    success: (response)=>{
+      this.reset()
+    }
+  })
+})
+
+let countery = ()=>{
+        $.ajax({
+            url:'admin/countrysController',
+            type: "get",
+            success:(response)=>{
+                $.each(response,function(kay,value){
+                    var html = `<option value="${value.id}">${value.name}</option>`;
+                    $('.country').append(html)
+                })
+            }
+        })
+    }
+    countery()
 </script>

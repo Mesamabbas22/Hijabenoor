@@ -32,7 +32,19 @@ class cart extends Controller
         return response()->json(session()->get('cart'));
 
     }
-    public function updateTOcart(){
-        
+    public function updateTOcart(Request $request){
+        if($request->Id && $request->value){
+            $item = session()->get('cart');
+            $item[$request->Id]['quantity'] = $request->value;
+            session()->put('cart',$item);
+        }
+    }
+    public function deleteCart(Request $request){
+        if(isset($request->id)){
+            $item = session()->get('cart');
+            unset($item[$request->id]);
+            session()->put('cart',$item);
+            return session()->get('cart');
+        }
     }
 }

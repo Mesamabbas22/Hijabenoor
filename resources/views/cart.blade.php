@@ -6,6 +6,7 @@
         <div class="container">
             <div class="row"><div class="col-md-9">
                 <div class="table-responsive">
+                    @if(session()->has('cart'))
                     <table class="table table-borderless mb-0" style="overflow-x: auto;">
                         <thead>
                             <tr>
@@ -18,7 +19,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if(session()->has('cart'))
+                            {{$value = null}}
                             @foreach (session()->get('cart') as $kay => $item)
                             <tr>
                                 <td>
@@ -44,17 +45,35 @@
                                 </td>
                                 <td>
                                     <div class="product-action">
-                                        <button type="button" class="btn-bg-remove text-white"><i class="fas fa-times-circle"></i></button>
+                                        <button type="button" data-id="{{$kay}}" class="btn-bg-remove text-white"><i class="fas fa-times-circle"></i></button>
                                     </div>
                                 </td>
                             </tr>
+                            <?php $value += $item["price"] * $item["quantity"]?>
                             @endforeach
-                            @endif
                         </tbody>
                     </table>
+                    @else
+                    <h1 class="text-center">Empty cart</h1>
+                    @endif
                 </div>
             </div>
             <div class="col-md-3">
+                <div class="card shodow-none border-light">
+                    <div class="card-header border-bottom-light">
+                        <h4 class="card-title">Price Details</h4>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="price-detail">Price ( @if(session()->has('cart')) {{count(session()->get('cart'))}} @endif items) <span class="float-right">{{$value}}</span></div>
+                            <div class="price-detail">Delivery Charges <span class="float-right">$100</span></div>
+                            <div class="price-detail">TAX / VAT <span class="float-right">$0</span></div>
+                            <hr>
+                            <div class="price-detail">Payable Amount <span class="float-right">$2900</span></div>
+                            <div class="total-savings">Your Total Savings on this order $550</div>
+                        </div>
+                    </div>
+                </div>
                 <div class="card border-light  shodow-none">
                     <div class="card-header  border-bottom-light">
                         <h4 class="card-title">Apply Coupon</h4>
@@ -70,21 +89,6 @@
                                     <button type="button" class="btn-red">Apply Code</button>
                                 </div>
                             </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="card shodow-none border-light">
-                    <div class="card-header border-bottom-light">
-                        <h4 class="card-title">Price Details</h4>
-                    </div>
-                    <div class="card-content">
-                        <div class="card-body">
-                            <div class="price-detail">Price (4 items) <span class="float-right">$2800</span></div>
-                            <div class="price-detail">Delivery Charges <span class="float-right">$100</span></div>
-                            <div class="price-detail">TAX / VAT <span class="float-right">$0</span></div>
-                            <hr>
-                            <div class="price-detail">Payable Amount <span class="float-right">$2900</span></div>
-                            <div class="total-savings">Your Total Savings on this order $550</div>
                         </div>
                     </div>
                 </div>
