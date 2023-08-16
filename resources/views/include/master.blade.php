@@ -102,22 +102,18 @@
                 <div class="btn-group ">
                   <button type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/></svg></button>
                   <div class="dropdown-menu" x-placement="top-start" style="position: absolute; will-change: transform; top: 40px; left: 0px; transform: translate3d(0px, -2px, 0px);">
-                   @if(!Auth()->name)
-                    <button class="dropdown-item" onclick="window.location.href='/login'" type="button">Login</button>
-                    <button class="dropdown-item" onclick="window.location.href='/signup'" type="button">Register</button>
-                    @endif
-                    <div class="dropdown-divider"></div>
-                    <div class="dropdown-submenu">
-                        <button class="dropdown-item" type="button">More Options</button>
-                        <div class="dropdown-menu" role="menu">
-                            <button class="dropdown-item" type="button">Submenu Item</button>
-                            <button class="dropdown-item" type="button">Submenu Item</button>
-                            <button class="dropdown-item" type="button">Submenu Item</button>
-                        </div>
-                    </div>
+                   @if(!Auth::guard('customer')->check())
+                   <button class="dropdown-item" onclick="window.location.href='/login'" type="button">Login</button>
+                   <button class="dropdown-item" onclick="window.location.href='/signup'" type="button">Register</button>
+                   @else
+                   <button class="dropdown-item">Profile</button>
+                   <button class="dropdown-item">Settings</button>
+                   <div class="dropdown-divider"></div>
+                   <button class="dropdown-item" onclick="window.location.href='/logout'">logOut</button>
+                   @endif
+                  </div>
                 </div>
-                </div>
-                <a href="cart" class="cart-btn"><span class="highlight-card-number cart-label">{{(session()->has('cart'))?count( session()->get('cart')):0}}</span><i class="fas fa-cart-plus"></i></a>  
+                <a href="/cart" class="cart-btn"><span class="highlight-card-number cart-label">{{(session()->has('cart'))?count( session()->get('cart')):0}}</span><i class="fas fa-cart-plus"></i></a>  
             </ul>
           </div>
         </div>

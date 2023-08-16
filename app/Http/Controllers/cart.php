@@ -16,7 +16,7 @@ class cart extends Controller
         $cart = $product->where('id',$id)->get();
         $items = session()->get('cart',[]);
         if(isset($items[$id])){
-            $items[$id]['quantity']++;
+            ($items[$id]['quantity'] < 10)?$items[$id]['quantity']++:$items[$id]['quantity'];
         }else{
             $items[$id] = [
                 'product'=>$cart[0]->product, 

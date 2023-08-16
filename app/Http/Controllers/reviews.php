@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\customerReviewsModel;
+use Auth;
 
 class reviews extends Controller
 {
@@ -40,10 +41,10 @@ class reviews extends Controller
         customerReviewsModel::create([
             "product_id"=> $request['product_id'],
             "rating"=> $request['score'],
-            "guest_name"=> $request['name'],
-            "guest_email"=> $request['email'],
+            "guest_name"=> (isset($request['name'])?$request['name']:null),
+            "guest_email"=> (isset($request['email'])?$request['email']:null),
             "comment"=> $request['comment'],
-            "user_id"=> 0,
+            "user_id"=> (Auth::guard('customer')->check()?Auth::guard('customer')->user()->id:0),
         ]);
     }
 

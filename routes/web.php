@@ -9,6 +9,7 @@ use App\Http\Controllers\countrys;
 use App\Http\Controllers\cart;
 use App\Http\Controllers\reviews;
 use App\Http\Controllers\customerUserController;
+use App\Http\Controllers\orders;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,9 +32,14 @@ Route::get('addtocart/{id}',[cart::class,'addToCard']);
 Route::patch('updatetocart',[cart::class,'updateTOcart']);
 Route::delete('deletecart',[cart::class,'deleteCart']);
 Route::view('checkout','checkout');
-Route::view('login','login');
-Route::view('signup','register');
-
+Route::group(['middleware'=>'customerLogged'],function(){
+    Route::view('login','login');
+    Route::get('signup',function(){
+        return view('register');
+    });
+    Route::get('dologin',[customerUserController::class,'dologin']);
+});
+Route::get('logout',[customerUserController::class,'dologout']);
 Route::group(['prefix'=>'admin/' ,'as'=> 'admin.','middleware'=> 'logedin'],function(){
         Route::get('dashboard',function(){
             return view('admin.dashboard');
@@ -48,6 +54,7 @@ Route::group(['prefix'=>'admin/' ,'as'=> 'admin.','middleware'=> 'logedin'],func
             return view('admin.brand');
         });
     });
+    Route::resource('orders',orders::class);
     Route::resource('customerUserController',customerUserController ::class);
     Route::resource('admin/customerReviews',reviews::class);
     Route::resource('admin/categorycontroller',category::class);

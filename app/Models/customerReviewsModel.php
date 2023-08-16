@@ -13,5 +13,9 @@ class customerReviewsModel extends Model
     protected $table = 'tbl_review';
     public $timestamps = false;
     // Implement the required methods of Authenticatable if they are not already implemented.
+    // public function user(){
+    //     return $this->hasMany(customerusers::class,'id','user_id');
+    // }
+
     
 }

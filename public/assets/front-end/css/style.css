@@ -683,4 +683,15 @@ footer .row-first , footer .row-second{
 	transform: translate3d(0, -100%, 0);
 	}
 	} 
+	.color-of-review{
+		width: 10px;
+		height: 10px;
+		border-radius:100%;
+
+	}
+	.btn-text{
+		background-color: transparent;
+		border: none;
+		outline: none;
+	}
   

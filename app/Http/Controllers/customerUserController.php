@@ -52,11 +52,28 @@ class customerUserController extends Controller
             "country"=>$request->country,
             
          ]);
-            Auth::login($customerUser);
+            // Auth::login($customerUser);
+            session()->put(['user'=>$customerUser]);
         return redirect('/')->with('success', 'Welcome, ' . $customerUser->name . '! Registration successful.');
 
     }
-    
+    public function dologin(Request $request){
+        $request->validate([
+            'email'=> 'required',
+            'password'=> 'required'
+        ]);
+        if(!Auth::guard('customer')->attempt(['email'=>$request->email,'password'=>$request->password])){
+            return redirect('login');
+        }
+        $customer = customerusers::where(['email'=>$request->email],['password'=>$request->password])->firstOrFail();
+        session()->put(['user'=>$customer]);
+        return redirect('/');
+    }
+    public function dologout(){
+        // session()->forget('user');
+        Auth::guard('customer')->logout();
+        return redirect('/');
+    }
     /**
      * Display the specified resource.
      *

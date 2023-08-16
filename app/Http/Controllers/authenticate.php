@@ -34,7 +34,7 @@ class authenticate extends Controller
         //
         $user = $request['user-name'];
         $password = $request['user-password'];
-        if(!Auth::attempt(['username' => $user,'password' => $password])){
+        if(!Auth::guard('web')->attempt(['username' => $user,'password' => $password])){
             return response()->json([
                 'success' => false,
                 'message' => 'Invalid login details',

@@ -135,6 +135,7 @@
                         <td>${value.price}</td>
                         <td>${value.stock}</td>
                         <td>
+                            <button type="button" class="btn btn-primary" onclick="singleProduct(${value.id})" data-toggle="modal" data-target="#rating-product"><i class="la la-smile-o"></i></button>
                             <button type="button" class="btn btn-success" onclick="singleProduct(${value.id})" data-toggle="modal" data-target="#view-product"><i class="la la-eye"></i></button>
                             <button type="button" class="btn btn-warning" onclick="editProduct(${value.id})" data-toggle="modal" data-target="#edit-product"><i class="la la-edit"></i></button>
                             <button type="button" class="btn btn-danger" onclick="deleteProduct(${value.id})"><i class="la la-trash-o"></i></button>
@@ -143,6 +144,7 @@
                     `
                     $('#tbody').append(html)
                 })
+
             },
             error: (error)=>{
                 console.log(error)
@@ -162,8 +164,6 @@
                 $('.carousel-container').hide();
             },
             success: (response)=>{
-                console.log(response)                          
-
                             let images = response.images;
                             var carousel = '';
                             var nav = '';
@@ -194,6 +194,49 @@
                             $('.carousel-indicators .navs:first-child').addClass('active')
                             
                             // $('.single-product').html(html)
+                            $('#rating-product').on('hide.bs.modal',function(){
+                                $('.rating-model').empty()  
+                            })
+                            $.each(response['reviews'],function(kay,value){
+                                var color = ''
+                                if(parseFloat(value['rating']) >= 3.50){
+                                    color = 'bg-success'
+                                }else if(parseFloat(value['rating']) >= 2.00){
+                                    color ='bg-warning'
+                                }
+                                else{
+                                    color = 'bg-danger'
+                                } 
+                                var name = ''
+                                if(value['guest_name']!=null){
+                                    name = value['guest_name']
+                                }else{
+                                    name = response['user'][0]['name']
+                                }
+                                var html = `<div class="card px-2 py-3">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <div class="row">
+                                                    <div class="color-of-review ${color}  my-auto ml-auto"></div>
+                                                    <img alt="Generic placeholder image" class="my-auto media-object mx-2" src="{{URL::asset('admin/app-assets/images/portrait/small/avatar-s-1.png')}}" width="50" height="50" />
+                                                    <p class="font-weight-bold my-auto mr-auto">${name}</p>
+                                                </div>
+                                        </div>
+                                            <div class="col-2">
+                                                <div class='ratings-value' data-rating="dummy"></div>
+                                                <span class="m-auto admin-ratings${kay}">
+                                                </span>
+                                            </div>
+                                            <div class="col-7">${value['comment']}</div>
+                                        </div>
+                                    </div>`;
+                                    
+                $('.rating-model').append(html)
+                $('.admin-ratings'+kay).raty({
+                        readOnly: true,
+                        score: value['rating']
+                    });
+                            })
 
             },
             error: (error)=>{
@@ -331,6 +374,7 @@ let deleteProduct = (id)=>{
       }
     })
 }
+$.fn.raty.defaults.path = '{{URL::asset("admin/app-assets/images/raty/")}}';
 
     
 </script>

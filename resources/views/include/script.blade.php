@@ -38,7 +38,7 @@ productDisplay()
 let cartBtn = ()=>{
   $('.cart-btn').click(function(){
     $.ajax({
-      url:"addtocart/"+$(this).data('id'),
+      url:"/addtocart/"+$(this).data('id'),
       type:'get',
       success:(response)=>{
         $('.cart-label').html(Object.keys(response).length)
@@ -47,24 +47,8 @@ let cartBtn = ()=>{
     })
   })
 }
-$('.input-group .input-group-btn').click(function(){
-        let id = $($(this)[0].parentElement).data('id');
-        let values = $(this).siblings('input').val();
-        $.ajax({
-          url: 'updatetocart',
-          type: 'patch',
-          data: {
-            "Id":id,
-            "value":values,
-            "_token": '{{ csrf_token() }}',
-          },
-          success:(response)=>{
-            console.loh(response)
-          }
-        })
-    })
-
-    $('.product-action > button').click(function(){
+cartBtn()
+    $('.product-action > button, .remove-items').click(function(){
       $.ajax({
         url: 'deletecart',
         type:'delete',
@@ -74,7 +58,8 @@ $('.input-group .input-group-btn').click(function(){
               
               },
         success: (response)=>{
-          $($(this)[0].parentElement.parentElement.parentElement).remove()
+          let cart_item = $($(this)[0].parentElement.parentElement.parentElement)
+          cart_item.remove()
           let count = $('.cart-label').text();
           $('.cart-label').html(Object.keys(response).length)
           if(Object.keys(response).length == 0) {$('.cart-label').hide()}
@@ -93,22 +78,51 @@ $('.input-group .input-group-btn').click(function(){
 //   })
 // }
 $.fn.raty.defaults.path = '{{URL::asset("admin/app-assets/images/raty/")}}';
-
-$('.ratings').raty({
+var total_rating = 0;
+$.each($('.ratings-value'),function(kay,value){
+  let rating = $(this).siblings('.ratings');
+  rating.raty({
     readOnly: true,
-    score: 2.3551136363636362
+    score: $(value).data('rating')
 });
+total_rating += parseFloat($(value).data('rating'))
+// console.log($(value).data('rating'))
+})
+console.log(parseFloat(total_rating))
+$('.total-rating').raty({
+    readOnly: true,
+    score: parseFloat(total_rating)/$('.ratings-value').length
+})
 
 // Star Review
 $('#customer-review').raty({
 	half : true,
   click: function(score){
-    console.log(score)
   }
 });
 
-$(".touchspin").TouchSpin({ min: 1, max: 10});
+$(".touchspin").TouchSpin({ 
+  min: 1,
+  max: 10,
+  verticalbuttons: true
+  });
 
+  $(".touchspin").on('touchspin.on.startspin ,touchspin.on.startdownspin',function(){
+    let id = $($(this)[0].parentElement).data('id');
+    let values = $(this).val();
+    $.ajax({
+          url: 'updatetocart',
+          type: 'patch',
+          data: {
+            "Id":id,
+            "value":values,
+            "_token": '{{ csrf_token() }}',
+          },
+          success:(response)=>{
+            console.log(response)
+          }
+        })
+  })
 $('#ratting-form').submit(function(event){
   event.preventDefault();
   let form = new FormData(this);
@@ -121,7 +135,39 @@ $('#ratting-form').submit(function(event){
     processData: false,
     success: (response)=>{
       this.reset()
-    }
+    },
+    complete: (complete)=>{
+      var name = '';
+      if(form.get('name') == null){
+        
+        name = 'mesam'
+      }else{
+        name = form.get('name')
+      }
+      var html = `<div class="media">
+                    <span class="media-left">
+                        <img alt="Generic placeholder image" class="media-object" src="{{URL::asset('admin/app-assets/images/portrait/small/avatar-s-1.png')}}" width="64" height="64" />
+                    </span>
+                    <div class="media-body">
+                        <div class='ratings-value' data-rating="${form.get('score')}"></div>
+                        <span class="ratings float-right">
+                        </span>
+                        <h5 class="media-heading mb-0 text-bold-600">
+                            ${name}
+                        </h5>
+                        <div class="media-notation mb-1">
+                            2 Oct, 2018 at 8:39am
+                        </div>
+                        ${form.get('comment')}
+                    </div>
+                </div>`
+      $('#reviews').prepend(html)
+      let rating = $('#reviews .media:first-child').children('.media-body').children('.ratings')
+      rating.raty({
+              readOnly: true,
+              score: $('#reviews .media:first-child').children('.media-body').children('.ratings-value').data('rating')
+            });
+          }
   })
 })
 
@@ -138,4 +184,20 @@ let countery = ()=>{
         })
     }
     countery()
+
+    $('#order-form').submit(function(event){
+      event.preventDefault();
+      let form = new FormData(this);
+      $.ajax({
+        url:"orders",
+        type:"post",
+        processData: false,
+        cache:false,
+        contentType:false,
+        data: form,
+        success: (response)=>{
+          console.log(response)
+        }
+      })
+    })
 </script>

@@ -24,6 +24,7 @@
     <script src="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone-min.js"></script>
     {{-- <script src="{{URL::asset('admin/app-assets/vendors/js/extensions/dropzone.min.js')}}"></script> --}}
     <script src="{{URL::asset('admin/app-assets/vendors/js/ui/prism.min.js')}}"></script>
+    <script src="{{URL::asset('admin/app-assets/vendors/js/extensions/jquery.raty.js')}}"></script>
     <!-- END: Page Vendor JS-->
     
     <!-- BEGIN: Theme JS-->

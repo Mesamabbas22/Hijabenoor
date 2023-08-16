@@ -99,21 +99,25 @@ class product extends Controller
     public function show(Request $request, string $id)
     {
         try{
-            $product =  products::join('tbl_category','tbl_product.category','=','tbl_category.id')->select('tbl_product.id','product','name as category','price','ware_price','description','Brand','images1','images2','images3','images4','tbl_product.status','tbl_product.stock')->where('tbl_product.id',$id)->get();
-            $data = response()->json([
+        $product =  products::with(['review'=>function($query){
+            $query->orderBy('id','desc');
+          }])->with('get_category')->with('get_brand')->with('user')->where('id',$id)->get();
+             $data = response()->json([
                 "id"=> $product[0]->id,
                 "product"=>$product[0]->product,
-                "Category"=>$product[0]->category,
+                "Category"=>$product[0]->get_category[0]->name,
                 "price"=>$product[0]->price,
                 "ware_price"=>$product[0]->ware_price,
                 "description"=>$product[0]->description,
-                "Brand"=>$product[0]->Brand,
+                "Brand"=>$product[0]->get_brand[0]->BrandName,
                 "images"=>[
                     "images1"=>$product[0]->images1,
                     "images2"=>$product[0]->images2,
                     "images3"=>$product[0]->images3,
                     "images4"=>$product[0]->images4,
                    ],
+                   'reviews'=>$product[0]->review,
+                   'user'=>$product[0]->user,
                    "status"=>$product[0]->status,
                    "stock"=>$product[0]->stock,
 

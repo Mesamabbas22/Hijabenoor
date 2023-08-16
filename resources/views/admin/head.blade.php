@@ -19,6 +19,7 @@
     <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/vendors/css/charts/chartist-plugin-tooltip.css')}}">
     <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/vendors/css/file-uploaders/dropzone.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/app-assets/vendors/css/ui/prism.min.css')}}">
+    
     <!-- END: Vendor CSS-->
 
     <!-- BEGIN: Theme CSS-->
@@ -44,7 +45,7 @@
     <!-- END: Page CSS-->
 
     <!-- BEGIN: Custom CSS-->
-    <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/URLs/css/style.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{URL::asset('assets/css/style.css')}}">
     <!-- END: Custom CSS-->
 
 </head>

@@ -20,4 +20,11 @@ class products extends Model
     public function get_category(){
         return $this->hasMany(Categorys::class,'id','category');
     }
+    public function review(){
+        return $this->hasMany(customerReviewsModel::class,'product_id','id');
+    }
+    public function user(){
+        return $this->hasManyThrough(customerusers::class,customerReviewsModel::class,'product_id','id','id','user_id');
+    }
+
 }

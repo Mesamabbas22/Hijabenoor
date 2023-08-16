@@ -6,11 +6,17 @@
     <div class="col-6 my-5">
         <p class="h1 font-weight-bold text-center">Login</p>
         <p class="text-center">Enter Login details to get access</p>
-        <form>
+        <form action="dologin">
             <label class="h5 mt-3" for="Username-Or-Email-Addres">Username Or Email Addres</label>
-            <input type="text" class="form-control rounded-0" placeholder="Username/ Eamil address">
+            <input type="text" name="email" class="form-control rounded-0" placeholder="Username/ Eamil address">
+            @error('email')
+            {{$message}}
+            @enderror
             <label class="h5 mt-2" for="Password">Password</label>
-            <input type="password" class="form-control rounded-0" placeholder="Password">
+            <input type="password" name="password" class="form-control rounded-0" placeholder="Password">
+            @error('password')
+            {{$message}}
+            @enderror
             <label class="mt-2" for="keepmeloggedid">
                 <input type="checkbox" name="keepmeloggedid" id="">
                 Keep Me Logged In
